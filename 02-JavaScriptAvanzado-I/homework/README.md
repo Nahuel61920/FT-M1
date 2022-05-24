@@ -1,4 +1,3 @@
-
 # Homework JavaScript Avanzado I
 
 ## Scope & Hoisting
@@ -11,90 +10,96 @@ Determiná que será impreso en la consola, sin ejecutar el código.
 x = 1;
 var a = 5;
 var b = 10;
-var c = function(a, b, c) {
+var c = function (a, b, c) {
+  // a = 8, b = 9, c = 10
   var x = 10;
-  console.log(x);
-  console.log(a);
-  var f = function(a, b, c) {
-    b = a;
-    console.log(b);
-    b = c;
+  console.log(x); // x = 10
+  console.log(a); // a = 8
+  var f = function (a, b, c) {
+    // a = 8, b = 9, c = 10
+    b = a; // b =9, a = 8 = 8
+    console.log(b); // b = 8
+    b = c; // b =8, c = 10 = 10
     var x = 5;
-  }
-  f(a,b,c);
-  console.log(b);
-}
-c(8,9,10);
-console.log(b);
-console.log(x);
+  };
+  f(a, b, c); // a = 8, b = 9, c = 10
+  console.log(b); // b = 9
+};
+c(8, 9, 10);
+console.log(b); // b = 10
+console.log(x); // x = 1
 ```
 
 ```javascript
-console.log(bar);
-console.log(baz);
-foo();
-function foo() { console.log('Hola!'); }
+// foo(), bar
+
+console.log(bar); // bar = undefined
+console.log(baz); // baz = error
+foo(); // Hola!
+function foo() {
+  console.log("Hola!");
+}
 var bar = 1;
 baz = 2;
 ```
 
 ```javascript
 var instructor = "Tony";
-if(true) {
-    var instructor = "Franco";
+if (true) {
+  var instructor = "Franco";
 }
-console.log(instructor);
+console.log(instructor); // Franco
 ```
 
 ```javascript
 var instructor = "Tony";
-console.log(instructor);
-(function() {
-   if(true) {
-      var instructor = "Franco";
-      console.log(instructor);
-   }
+console.log(instructor); // Tony
+(function () {
+  if (true) {
+    var instructor = "Franco";
+    console.log(instructor); // Franco
+  }
 })();
-console.log(instructor);
+console.log(instructor); // Tony
 ```
 
 ```javascript
 var instructor = "Tony";
 let pm = "Franco";
 if (true) {
-    var instructor = "The Flash";
-    let pm = "Reverse Flash";
-    console.log(instructor);
-    console.log(pm);
+  var instructor = "The Flash";
+  let pm = "Reverse Flash";
+  console.log(instructor); // The Flash
+  console.log(pm); // Reverse Flash
 }
-console.log(instructor);
-console.log(pm);
+console.log(instructor); // The Flash
+console.log(pm); // Franco
 ```
+
 ### Coerción de Datos
 
 ¿Cuál crees que será el resultado de la ejecución de estas operaciones?:
 
 ```javascript
-6 / "3"
-"2" * "3"
-4 + 5 + "px"
-"$" + 4 + 5
-"4" - 2
-"4px" - 2
-7 / 0
-{}[0]
-parseInt("09")
-5 && 2
-2 && 5
-5 || 0
-0 || 5
-[3]+[3]-[10]
-3>2>1
-[] == ![]
+6 / "3" // 2
+"2" * "3" // 6
+4 + 5 + "px" // 4 + 5 = "9" + "px" = "9px"
+"$" + 4 + 5 // "$" + 4 = "$4" + 5 = "$45"
+"4" - 2 // 2
+"4px" - 2 // NaN
+7 / 0 // Infinity
+{}[0] // [ 0 ]
+parseInt("09") // 9
+5 && 2 // 2
+2 && 5 // 5
+5 || 0 // 5
+0 || 5 // 5
+[3]+[3]-[10] // "3" + "3" = "33" - "10" = 23
+3>2>1 // 3>2 true>1 => 1>1 = false
+[] == ![] // [] == false => "" == false => false == false = true
 ```
 
 > Si te quedó alguna duda repasá con [este artículo](http://javascript.info/tutorial/object-conversion).
-
 
 ### Hoisting
 
@@ -102,56 +107,57 @@ parseInt("09")
 
 ```javascript
 function test() {
-   console.log(a);
-   console.log(foo());
+  // a, foo()
+  console.log(a); // undefined
+  console.log(foo()); // 2
 
-   var a = 1;
-   function foo() {
-      return 2;
-   }
+  var a = 1;
+  function foo() {
+    return 2;
+  }
 }
 
-test();
+test(); // undefined
 ```
 
 Y el de este código? :
 
 ```javascript
-var snack = 'Meow Mix';
+var snack = "Meow Mix";
 
 function getFood(food) {
-    if (food) {
-        var snack = 'Friskies';
-        return snack;
-    }
+  // snack = undefined
+  if (food) {
+    var snack = "Friskies";
     return snack;
+  }
+  return snack;
 }
 
-getFood(false);
+getFood(false); // Undefined
 ```
-
 
 ### This
 
 ¿Cuál es el output o salida en consola luego de ejecutar esté código? Explicar por qué:
 
 ```javascript
-var fullname = 'Juan Perez';
+var fullname = "Juan Perez";
 var obj = {
-   fullname: 'Natalia Nerea',
-   prop: {
-      fullname: 'Aurelio De Rosa',
-      getFullname: function() {
-         return this.fullname;
-      }
-   }
+  fullname: "Natalia Nerea",
+  prop: {
+    fullname: "Aurelio De Rosa",
+    getFullname: function () {
+      return this.fullname;
+    },
+  },
 };
 
-console.log(obj.prop.getFullname());
+console.log(obj.prop.getFullname()); // "Aurelio De Rosa"
 
 var test = obj.prop.getFullname;
 
-console.log(test());
+console.log(test()); // "Juan Perez" => Porque esta en el contexto global
 ```
 
 ### Event loop
@@ -160,11 +166,32 @@ Considerando el siguiente código, ¿Cuál sería el orden en el que se muestra 
 
 ```javascript
 function printing() {
-   console.log(1);
-   setTimeout(function() { console.log(2); }, 1000);
-   setTimeout(function() { console.log(3); }, 0);
-   console.log(4);
+  console.log(1); // Primero
+  setTimeout(function () {
+    console.log(2); // Cuarto => setTime de 1s
+  }, 1000);
+  setTimeout(function () {
+    console.log(3); // tercero => setTime de 0
+  }, 0);
+  console.log(4); // Segundo
 }
 
 printing();
 ```
+
+// Ejecution Stack:
+console.log(1);
+console.log(4);
+console.log(3);
+console.log(2);
+
+// Web apis:
+
+// Callback queue
+
+    function () {
+      console.log(2); // setTime de 1s
+    }
+    function () {
+      console.log(3); // setTime de 0
+    }
