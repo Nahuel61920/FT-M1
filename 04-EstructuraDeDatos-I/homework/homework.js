@@ -15,9 +15,24 @@ Como ejercicio adicional y completamente opcional, al terminar de resolver este 
 */
 
 function nFactorial(n) {
+
+  if (n > -1 && n < 2) {
+    return 1
+  } else if (n < 0) {
+    return 0
+  }
+  return n * nFactorial(n - 1)
 }
 
 function nFibonacci(n) {
+  if (n == 1) {
+    return 1
+  } else if (n == 0) {
+    return 0
+  } else if (n < 0) {
+    return "Error: No puede haber fibonacci con numeros negativos"
+  }
+  return nFibonacci(n - 1) + nFibonacci(n - 2)
 }
 
 /*
@@ -30,7 +45,19 @@ Pueden utilizar class o función constructora.
 */
 
 function Queue() {
+  this.array = [];
+}
 
+Queue.prototype.enqueue = function (value) {
+  return this.array.push(value);
+}
+
+Queue.prototype.dequeue = function () {
+  return this.array.shift();
+}
+
+Queue.prototype.size = function () {
+  return this.array.length;
 }
 
 // No modifiquen nada debajo de esta linea
