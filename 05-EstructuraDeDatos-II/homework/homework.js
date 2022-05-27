@@ -11,9 +11,24 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
   En caso de que la búsqueda no arroje resultados, search debe retornar null.
 */
 
-function LinkedList() {}
+class LinkedList {
+  constructor() {
+  }
+  add() {
+  }
+  remove() {
+  }
+  search() {
+  }
+}
 
-function Node(value) {}
+
+
+
+
+function Node(value) { }
+
+
 
 /*
 Implementar la clase HashTable.
@@ -30,7 +45,7 @@ La clase debe tener los siguientes métodos:
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
 
-function HashTable() {}
+function HashTable() { }
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
