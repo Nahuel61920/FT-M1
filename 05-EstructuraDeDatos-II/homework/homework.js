@@ -13,20 +13,71 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
 
 class LinkedList {
   constructor() {
+    this.head = null;
+    this._length = 0;
   }
-  add() {
+  add(value) {
+    let node = new Node(value);
+    let current = this.head;
+
+    if (!current) { // Si mi lista esta vacia, insertar el nodo en this.head
+      this.head = node;
+      this._length++;
+    } else { // Recorer mi lista hasta el final e insertar el nodo donde sea null 
+      while (current.next) {
+        current = current.next;
+      }
+
+      current.next = node;
+      this._length++;
+      return node;
+    }
   }
   remove() {
+    let current = this.head
+
+    if (!current) { // Retornar null si esta vacio
+      return null
+    } else if (current && !current.next) { // Si mi head existe y el next es null
+      let temp = current.value; // Guardar el valor en una variable temporarl para luego retornarla
+      this.head = null;
+      this._length--;
+      return temp;
+    } else {
+      while (current.next.next) { // Recorer la lista y buscar el ultimo nodo ingresado
+        current = current.next
+      }
+      let temp = current.next.value;
+      current.next = null;
+      this._length--;
+      return temp;
+    }
   }
-  search() {
+  search(value) {
+    let current = this.head;
+
+    while (current) {
+      if (current.value === value) { // Si no me pasan una function retornar el valor
+        return value;
+      } else if (typeof value === 'function') { // Si me pasan una funcion
+        if (value(current.value)) {
+          return current.value
+        }
+      }
+
+      current = current.next // Mientras exista un current avanzo
+    }
+    return null
   }
 }
 
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
 
-
-
-
-function Node(value) { }
 
 
 
@@ -45,7 +96,46 @@ La clase debe tener los siguientes métodos:
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
 
-function HashTable() { }
+class HashTable {
+  constructor() {
+    this.numBuckets = 35;
+    this.bucket = [];
+  }
+  hash(key) {
+    let sum = 0;
+
+    for (let i = 0; i < key.length; i++) {
+      sum = sum + key.charCodeAt(i);
+    }
+
+    return sum % this.numBuckets;
+  }
+  set(key, value) {
+    if (typeof key !== 'string') { // si la key no es un string devolvemos error
+      throw new TypeError('Keys must be strings');
+    }
+    let i = this.hash(key);
+
+    if (!this.bucket[i]) {
+      this.bucket[i] = {};
+    }
+
+    this.bucket[i][key] = value;
+
+
+  }
+  get(key) {
+    let i = this.hash(key);
+
+    return this.bucket[i] ? this.bucket[i][key] : undefined;
+  }
+  hasKey(key) {
+    let i = this.hash(key);
+
+    return this.bucket[i].hasOwnProperty(key); // Verifivamos si tiene esta propiedad y devuelve true o false
+  }
+}
+
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
